@@ -10,7 +10,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	int i,j;
-	vector<int>v={1,2,3,4,5,9,6,7,8#,10,11};
+	vector<int>v={1,2,3,4,5,9,6,7,8,10,11};
 	int st_index=0;
 	int end_index=0;
 	int prev=v[0];
