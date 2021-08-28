@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 
@@ -11,6 +10,25 @@ using namespace std;
 // The correct positions will give the answer
 // of the sub array to eb sorted.
 
+bool OutOfOrder(vector<int> v1, int idx)
+{
+	int sz = v1.size() - 1;
+	if (v1[0] > v1[1])
+		return true;
+	else if (v1[sz - 1] < v1[sz - 2])
+		return true;
+	else if (idx != sz && v1[idx] > v1[idx + 1])
+		return true;
+	else if (idx == sz && v1[idx - 1] > v1[idx])
+		return true;
+	else if (idx != 0 && v1[idx - 1] > v1[idx])
+		return true;
+	else if (idx == 0 && v1[idx + 1] < v1[idx])
+		return true;
+
+	else
+		return false;
+}
 int main(int argc, char *argv[])
 {
 	vector<int> v = {1, 2, 3, 4, 5, 8, 6, 7, 9, 10, 11};
@@ -20,66 +38,56 @@ int main(int argc, char *argv[])
 	int start_idx, end_idx;
 	start_idx = end_idx = -1;
 
-	if (v[0] > v[1] || v[n - 1] < v[n - 2])
+	for (i = 0; i <= n; i++)
 	{
-		// Edge Case sort complete array
-		start_idx = 0;
-		end_idx = n - 1;
+		if (OutOfOrder(v, i) && start_idx == -1)
+		{
+			cout << " start i=" << i << endl;
+			start_idx = i;
+		}
+		if (OutOfOrder(v, n - i ) && end_idx == -1)
+		{
+			cout << " End n-i= " << n-i << endl;
+			end_idx = n - i;
+		}
 	}
-	else
+
+	cout << "start_idx=" << start_idx << endl;
+	cout << "end_idx=" << end_idx << endl;
+
+	int small = v[start_idx];
+	int large = v[end_idx];
+
+	if (small > large)
 	{
-		for (i = 1; i <= n - 1; i++)
+		int temp = large;
+		large = small;
+		small = temp;
+	}
+
+	cout << "small=" << small << " large=" << large << endl;
+	start_idx=end_idx=-1;
+	n = v.size() - 1;
+	for (i = 0; i <= n ; i++)
+	{
+		if (v[i] <= small)
 		{
-			if (start_idx == -1)
-			{
-				if (v[i] > v[i - 1] && v[i] < v[i + 1])
-				{
-					// All good
-					;
-					//cout << "i=" << i << endl;
-				}
-				else
-				{
-					start_idx = i;
-					//cout << "inside else i=" << i << endl;
-				}
-			}
-			if (end_idx == -1)
-			{
-				if (v[n - i] > v[n - i - 1] && v[n - i] < v[n - i + 1])
-				{
-					// All good
-					;
-				}
-				else
-				{
-					end_idx = n - i;
-				}
-			}
+			// All fine
+		}
+		else if(start_idx==-1)
+		{
+			//cout << "start_idx=" << i << endl;
+			start_idx = i ;
 		}
 
-		int small = v[start_idx];
-		int large = v[end_idx];
-
-		if (small > large)
+		if (v[n - i] >=large)
 		{
-			int temp = large;
-			large = small;
-			small = temp;
+			// All good
 		}
-
-		n = v.size() - 1;
-		for (i = 1; i <= n - 1; i++)
+		else if(end_idx==-1)
 		{
-			if (v[i] < small && v[i + 1] > small)
-			{
-				start_idx = i + 1;
-			}
-
-			if (v[n - i] < large && v[n - i + 1] > large)
-			{
-				end_idx = n - i;
-			}
+			//cout << "end_idx=" << n-i << endl;
+			end_idx = n - i;
 		}
 	}
 	cout << "start_idx=" << start_idx << endl;
