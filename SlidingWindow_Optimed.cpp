@@ -22,13 +22,10 @@ void subSetSumEqualsK(vector<int> v)
 	j=0;
 	for(i=0;i<n && j<n;)
 	{
-		//sum=0;
-		while(sum<K && sum!=K)
-		{
-			sum+=v[j];
-			j++;
-		}
-		while(sum>K)
+		sum+=v[j];
+		j++;
+		
+		while(sum>K && i<j)
 		{
 			sum-=v[i];
 			i++;
@@ -45,8 +42,6 @@ void subSetSumEqualsK(vector<int> v)
 				}
 				cout << endl;
 		}
-		sum+=v[j];
-		j++;
 	}
 	cout << "Result in indexs in vector=" << endl;
 	
@@ -59,7 +54,7 @@ void subSetSumEqualsK(vector<int> v)
 
 int main(int argc, char *argv[])
 {
-	vector<int> v= {1,2,3,4,5,2,3,5,6,2,3,4,1,5};
+	vector<int> v= {1,2,3,4,5,2,3,5,6,2,3,4,1,5,10};
 	
 	subSetSumEqualsK(v);
 	
